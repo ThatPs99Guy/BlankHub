@@ -1,2 +1,0 @@
-# BlankHub
-Blankhub script
