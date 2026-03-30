@@ -805,7 +805,7 @@ TitleBar.Size=UDim2.new(1,0,0,50);TitleBar.BackgroundColor3=C_BG2;TitleBar.Borde
 local tbFix=Instance.new("Frame",TitleBar);tbFix.Size=UDim2.new(1,0,0.5,0);tbFix.Position=UDim2.new(0,0,0.5,0)
 tbFix.BackgroundColor3=C_BG2;tbFix.BorderSizePixel=0
 local TitleLbl=Instance.new("TextLabel",TitleBar);TitleLbl.Size=UDim2.new(1,0,1,0);TitleLbl.BackgroundTransparency=1
-TitleLbl.Text="JR'S HUB (PREMIUM)";TitleLbl.Font=Enum.Font.GothamBlack;TitleLbl.TextSize=20;TitleLbl.TextColor3=C_ACCENT
+TitleLbl.Text="Blanks's Hub (Premium)";TitleLbl.Font=Enum.Font.GothamBlack;TitleLbl.TextSize=20;TitleLbl.TextColor3=C_ACCENT
 
 -- Draggable MainFrame
 do
@@ -832,7 +832,7 @@ end
 
 local DiscLbl=Instance.new("TextLabel",MainFrame);DiscLbl.Name="Discord"
 DiscLbl.Size=UDim2.new(1,0,0,20);DiscLbl.Position=UDim2.new(0,0,1,-25)
-DiscLbl.BackgroundTransparency=1;DiscLbl.Text="discord.gg/JRSHUB"
+DiscLbl.BackgroundTransparency=1;DiscLbl.Text="https://discord.gg/XGthGyeCzK"
 DiscLbl.Font=Enum.Font.GothamBold;DiscLbl.TextSize=12;DiscLbl.TextColor3=C_ACCENT
 
 local TabContainer=Instance.new("Frame",MainFrame);TabContainer.Name="TabContainer"
@@ -844,8 +844,8 @@ btn.Size=UDim2.new(0,72,1,0);btn.Position=UDim2.new(0,xOff,0,0)
 btn.Text=text;btn.Font=Enum.Font.GothamBold;btn.TextSize=10
 btn.TextColor3=C_GREY;btn.BackgroundColor3=C_BG4;btn.BorderSizePixel=0;mkCorner(btn,8);return btn
 end
-local FeaturesTab=makeTab("FeaturesTab","FEATURES",0);local KeybindsTab=makeTab("KeybindsTab","KEYBINDS",78)
-local SettingsTab=makeTab("SettingsTab","CONFIG",156);local MobileTab=makeTab("MobileTab","MOBILE",234)
+local FeaturesTab=makeTab("FeaturesTab","modules",0);local KeybindsTab=makeTab("KeybindsTab","KEYBINDS",78)
+local SettingsTab=makeTab("SettingsTab","settings",156);local MobileTab=makeTab("MobileTab","MOBILE",234)
 FeaturesTab.BackgroundColor3=C_ACCENT;FeaturesTab.TextColor3=C_BG
 
 local function makeScroll(name,vis)
