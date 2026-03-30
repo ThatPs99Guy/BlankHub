@@ -18,6 +18,113 @@ end
 
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
+-- ══════════════════════════════════════════════════════════
+-- KEY + HWID SYSTEM
+-- ══════════════════════════════════════════════════════════
+
+local Keys = {
+    "darkhub_test"
+}
+
+local KeyFile = "JR_Hub_KeyData.json"
+
+local function getHWID()
+    return tostring(Players.LocalPlayer.UserId)
+end
+
+local function isValidKey(input)
+    for _, k in ipairs(Keys) do
+        if input == k then
+            return true
+        end
+    end
+    return false
+end
+
+local function saveKeyData(key)
+    if writefile then
+        local data = {
+            key = key,
+            hwid = getHWID()
+        }
+        writefile(KeyFile, HttpService:JSONEncode(data))
+    end
+end
+
+local function loadKeyData()
+    if readfile and isfile and isfile(KeyFile) then
+        local success, data = pcall(function()
+            return HttpService:JSONDecode(readfile(KeyFile))
+        end)
+
+        if success and data then
+            if data.key and data.hwid then
+                if isValidKey(data.key) and data.hwid == getHWID() then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
+local KeyVerified = loadKeyData()
+
+if not KeyVerified then
+    local KeyGui = Instance.new("ScreenGui", PlayerGui)
+    KeyGui.Name = "JR_KeySystem"
+
+    local Frame = Instance.new("Frame", KeyGui)
+    Frame.Size = UDim2.new(0,300,0,160)
+    Frame.Position = UDim2.new(0.5,-150,0.5,-80)
+    Frame.BackgroundColor3 = Color3.new(0,0,0)
+    Frame.BorderSizePixel = 0
+
+    local Title = Instance.new("TextLabel", Frame)
+    Title.Size = UDim2.new(1,0,0,40)
+    Title.BackgroundTransparency = 1
+    Title.Text = "ENTER KEY"
+    Title.Font = Enum.Font.GothamBlack
+    Title.TextColor3 = Color3.new(1,1,1)
+    Title.TextSize = 18
+
+    local Box = Instance.new("TextBox", Frame)
+    Box.Size = UDim2.new(1,-20,0,40)
+    Box.Position = UDim2.new(0,10,0,50)
+    Box.Text = ""
+    Box.PlaceholderText = "Enter key here"
+    Box.Font = Enum.Font.GothamBold
+    Box.TextColor3 = Color3.new(1,1,1)
+    Box.BackgroundColor3 = Color3.new(0.1,0.1,0.1)
+    Box.BorderSizePixel = 0
+
+    local Button = Instance.new("TextButton", Frame)
+    Button.Size = UDim2.new(1,-20,0,40)
+    Button.Position = UDim2.new(0,10,1,-50)
+    Button.Text = "VERIFY"
+    Button.Font = Enum.Font.GothamBlack
+    Button.TextSize = 16
+    Button.TextColor3 = Color3.new(1,1,1)
+    Button.BackgroundColor3 = Color3.new(0.15,0.15,0.15)
+    Button.BorderSizePixel = 0
+
+    Button.MouseButton1Click:Connect(function()
+        local inputKey = Box.Text
+
+        if isValidKey(inputKey) then
+            saveKeyData(inputKey)
+            KeyVerified = true
+            KeyGui:Destroy()
+        else
+            Button.Text = "INVALID KEY"
+            task.wait(1)
+            Button.Text = "VERIFY"
+        end
+    end)
+
+    repeat task.wait() until KeyVerified
+end
+
 -- Clean previous instances
 for _, name in ipairs({"PlasmaDuelsGUI","PlasmaMobileButtons","PlasmaOpenClose","AutoStartMenu"}) do
 local old = PlayerGui:FindFirstChild(name)
