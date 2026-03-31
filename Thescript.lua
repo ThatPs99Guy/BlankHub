@@ -23,7 +23,7 @@ local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 -- ══════════════════════════════════════════════════════════
 
 local Keys = {
-    "darkhub_test"
+    "blankhub_test"
 }
 
 local KeyFile = "JR_Hub_KeyData.json"
@@ -86,6 +86,88 @@ if not KeyVerified then
     Title.Text = "ENTER KEY"
     Title.Font = Enum.Font.GothamBlack
     Title.TextColor3 = Color3.new(1,1,1)
+-- ══════════════════════════════════════════════════════════
+-- ACCOUNT LOCKED KEY SYSTEM (IN-SCRIPT)
+-- ══════════════════════════════════════════════════════════
+
+local AllowedUsers = {
+    -- [UserId] = "Key"
+    [8117660737] = "blankhub_test",
+}
+
+local KeyFile = "JR_Hub_KeyData.json"
+local Player = game.Players.LocalPlayer
+local UserId = Player.UserId
+
+local function getHWID()
+    return tostring(UserId)
+end
+
+local function getUserKey()
+    return AllowedUsers[UserId]
+end
+
+local function isValidKey(input)
+    local requiredKey = getUserKey()
+    if requiredKey and input == requiredKey then
+        return true
+    end
+    return false
+end
+
+local function saveKeyData(key)
+    if writefile then
+        local data = {
+            key = key,
+            hwid = getHWID()
+        }
+        writefile(KeyFile, game:GetService("HttpService"):JSONEncode(data))
+    end
+end
+
+local function loadKeyData()
+    if readfile and isfile and isfile(KeyFile) then
+        local success, data = pcall(function()
+            return game:GetService("HttpService"):JSONDecode(readfile(KeyFile))
+        end)
+
+        if success and data then
+            if data.key and data.hwid then
+                if isValidKey(data.key) and data.hwid == getHWID() then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
+-- If player is not registered
+if not AllowedUsers[UserId] then
+    Player:Kick("You are not allowed to use this script.")
+    return
+end
+
+local KeyVerified = loadKeyData()
+
+if not KeyVerified then
+    local PlayerGui = Player:WaitForChild("PlayerGui")
+
+    local KeyGui = Instance.new("ScreenGui", PlayerGui)
+    KeyGui.Name = "JR_KeySystem"
+
+    local Frame = Instance.new("Frame", KeyGui)
+    Frame.Size = UDim2.new(0,300,0,160)
+    Frame.Position = UDim2.new(0.5,-150,0.5,-80)
+    Frame.BackgroundColor3 = Color3.new(0,0,0)
+    Frame.BorderSizePixel = 0
+
+    local Title = Instance.new("TextLabel", Frame)
+    Title.Size = UDim2.new(1,0,0,40)
+    Title.BackgroundTransparency = 1
+    Title.Text = "ENTER KEY"
+    Title.Font = Enum.Font.GothamBlack
+    Title.TextColor3 = Color3.new(1,1,1)
     Title.TextSize = 18
 
     local Box = Instance.new("TextBox", Frame)
@@ -116,14 +198,14 @@ if not KeyVerified then
             KeyVerified = true
             KeyGui:Destroy()
         else
-            Button.Text = "INVALID KEY"
+            Button.Text = "WRONG KEY"
             task.wait(1)
             Button.Text = "VERIFY"
         end
     end)
 
     repeat task.wait() until KeyVerified
-end
+    end
 
 -- Clean previous instances
 for _, name in ipairs({"PlasmaDuelsGUI","PlasmaMobileButtons","PlasmaOpenClose","AutoStartMenu"}) do
@@ -1038,7 +1120,7 @@ end
 do
 rowOrder=rowOrder+1
 local tl=Instance.new("TextLabel",MobileFrame);tl.Size=UDim2.new(1,-10,0,30)
-tl.BackgroundTransparency=1;tl.Text="MOBILE BUTTONS";tl.TextColor3=C_ACCENT
+tl.BackgroundTransparency=1;tl.Text="mobile modules";tl.TextColor3=C_ACCENT
 tl.Font=Enum.Font.GothamBlack;tl.TextSize=14;tl.TextXAlignment=Enum.TextXAlignment.Left;tl.LayoutOrder=rowOrder
 makeToggleRow(MobileFrame,"Show Mobile Buttons","MobileSupport",function(v)
 local gui=PlayerGui:FindFirstChild("PlasmaMobileButtons");if gui then gui.Enabled=v end
