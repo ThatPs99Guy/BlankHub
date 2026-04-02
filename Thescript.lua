@@ -24,8 +24,8 @@ local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
 local AllowedUsers = {
     -- [UserId] = "Key"
-    [8117660737] = "ownerkey",
-    [3804276170] = "co-ownerkey",
+    [8117660737] = "bread",
+    [3804276170] = "ttv",
 }
 
 local KeyFile = "JR_Hub_KeyData.json"
