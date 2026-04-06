@@ -26,6 +26,7 @@ local AllowedUsers = {
     -- [UserId] = "Key"
     [8117660737] = "bread",
     [3804276170] = "ttv",
+    [3599265535] = "baz",
 }
 
 local KeyFile = "JR_Hub_KeyData.json"
